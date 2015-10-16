@@ -4,14 +4,19 @@ import System.Process
 import System.Exit
 import Data.List (lines,unlines)
 import Data.Char (isSpace)
+import qualified Data.String.Utils as S (split,replace,join)
 
+_prompt_char = '>'
+_pwdWidth = 60
 
 main = do
-  -- (_, Just hout, _, _) <- createProcess (proc )
   st <- status
   br <- branch
-  putStrLn $ applyANSI (show st) $ bgBlueL <> fgBlue <> esc
+  wd <- pwd
+  putStr $ applyANSI st $ bgBlueL <> fgBlue <> esc
+  putStr "/"
   putStrLn $ applyANSI br $ bgYellowL <> fgYellow <> esc
+  putStrLn $ applyANSI (show wd) $ bgRedL <> fgRed <> esc
 
 
 
@@ -22,10 +27,10 @@ status = do
     ExitFailure _ -> return ""
     ExitSuccess   -> return $
       ((\b->if b then "#" else "*")
-      -- .or.map (=='?') -- if there is a '?'
       .null
-      .map head.lines -- get 1st char forall files
+      .map head.lines
       ) out
+
 
 branch :: IO String
 branch = do
@@ -39,29 +44,50 @@ branch = do
       ) out
 
 
+pwd :: IO String
+pwd = do
+  (code,out,_) <- readProcessWithExitCode "pwd" [] ""
+  name <- uid
+  case code of
+    ExitFailure _ -> return ""
+    ExitSuccess   -> return $
+      ( (\str -> if (head str) == '~' then str else '/':str )
+      . (\str -> if (length str) > _pwdWidth
+                    then genShortPwd $ S.split "/" str
+                    else str)
+      . S.replace ("/Users/"++name) "~"
+      . filter (/='\n')
+      ) $ out
+
+genShortPwd :: [String] -> String
+genShortPwd [] = ""
+genShortPwd [l] = l
+genShortPwd (x:xs) = (head x) : '/' : genShortPwd xs
+
+uid :: IO String
+uid = do
+  (code,name,_) <- readProcessWithExitCode "whoami" [] ""
+  case code of
+    ExitFailure _ -> return ""
+    ExitSuccess   -> return $ filter (/='\n') $ name
+{-
 
 
+    if color256?
+      "#{gray256{time}} #{color256(22){where}}"  \
+      "#{green{cwd}}#{cyan{git}}#{prompt_char} "
+    else
+      "#{white{time}} #{white{where}}"           \
+      "#{green{cwd}}#{cyan{git}}#{prompt_char} "
+    end
+  end
 
-    {-
-
-      def dirty
-        case `git status --porcelain 2> /dev/null`
-          when ''
-            ''   # clean
-          when /\A(^[AMDRTC]  [^\n]+\n)+\Z/
-            '#' # all staged
-          else
-            '*' # dirty
-        end
-      end
-
-      def branch
-        return '' if (branch = `git branch 2> /dev/null`).empty?
-        branch.match(/\* (.+)/)[1]
-      end
+  def time
+    Time.now.strftime('%H:%M')
+  end
 
 
-    -}
+-}
 
 
 
