@@ -2,29 +2,61 @@ module Main where
 --
 import System.Process
 import System.Exit
+import Data.List (lines)
+import Data.Char (isSpace)
 
 
 main = do
   -- (_, Just hout, _, _) <- createProcess (proc )
   st <- status
   br <- branch
-  putStrLn $ show $ bgBlueL <> fgBlue <> esc
-  putStrLn $ color (show st) $ bgBlueL <> fgBlue <> esc
-  putStrLn $ color (show br) $ bgYellowL <> fgYellow <> esc
+  putStrLn $ applyANSI (show st) $ bgBlueL <> fgBlue <> esc
+  putStrLn $ applyANSI br $ bgYellowL <> fgYellow <> esc
 
-branch :: IO (Maybe String)
-branch = do
-  (code,out,_) <- readProcessWithExitCode "git" ["branch"] ""
-  case code of
-    ExitSuccess   -> return (Just out)
-    ExitFailure _ -> return Nothing
 
-status :: IO (Maybe String)
+
+status :: IO String
 status = do
   (code,out,_) <- readProcessWithExitCode "git" ["status","--porcelain"] ""
   case code of
-    ExitSuccess   -> return (Just out)
-    ExitFailure _ -> return Nothing
+    ExitSuccess   -> return $ ((\b->if b then "*" else "#").or.map (=='?').map head.lines) out
+    ExitFailure _ -> return $ ""
+
+branch :: IO String
+branch = do
+  (code,out,_) <- readProcessWithExitCode "git" ["branch"] ""
+  case code of
+    ExitSuccess   -> return $ (drop 1.head.takeWhile (('*'==).head).lines.filter (/=' ')) out
+    ExitFailure _ -> return ""
+
+
+
+
+    {-
+
+      def dirty
+        case `git status --porcelain 2> /dev/null`
+          when ''
+            ''   # clean
+          when /\A(^[AMDRTC]  [^\n]+\n)+\Z/
+            '#' # all staged
+          else
+            '*' # dirty
+        end
+      end
+
+      def branch
+        return '' if (branch = `git branch 2> /dev/null`).empty?
+        branch.match(/\* (.+)/)[1]
+      end
+
+
+    -}
+
+
+
+
+
 
 data ANSICode = ESC_Bold
               | ESC_Underline
@@ -45,14 +77,15 @@ instance Monoid ANSICode where
   mappend (ESC_Bg   bc) (ESC_Setup (f,b,i)) = ESC_Setup (f,bc,0)
 
 
-esc :: Monoid a => a
+esc :: ANSICode
 esc = mempty
 
-(<>) :: Monoid a => a -> a -> a
+(<>) :: ANSICode -> ANSICode -> ANSICode
 x <> y = mappend x y
 infixr 6 <>
 
-color s (ESC_Setup (f,b,i)) | f == 0, b == 0, i == 0 = "\ESC[0m\STX"++s
+applyANSI :: String -> ANSICode -> String
+applyANSI s (ESC_Setup (f,b,i)) | f == 0, b == 0, i == 0 = "\ESC[0m\STX"++s
                             | f == 0, b == 0, i == 1 = "\ESC[1m\STX"++s++"\ESC[0m\STX"
                             | f == 0, b == 0, i == 4 = "\ESC[4m\STX"++s++"\ESC[0m\STX"
                             | i == 0 = "\ESC["++(showC f)++(showC b)++"m\STX"++s++"\ESC[0m\STX"
@@ -98,24 +131,3 @@ bgBlueL    = ESC_Bg 104 -- Light blue
 bgMagentaL = ESC_Bg 105 -- Light magenta
 bgCyanL    = ESC_Bg 106 -- Light cyan
 bgWhiteL   = ESC_Bg 107 -- White
-
-{-
-
-  def dirty
-    case `git status --porcelain 2> /dev/null`
-      when ''
-        ''   # clean
-      when /\A(^[AMDRTC]  [^\n]+\n)+\Z/
-        '#' # all staged
-      else
-        '*' # dirty
-    end
-  end
-
-  def branch
-    return '' if (branch = `git branch 2> /dev/null`).empty?
-    branch.match(/\* (.+)/)[1]
-  end
-
-
--}
