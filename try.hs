@@ -21,8 +21,9 @@ status = do
   case code of
     ExitFailure _ -> return ""
     ExitSuccess   -> return $
-      ((\b->if b then "*" else "#")
-      .or.map (=='?') -- if there is a '?'
+      ((\b->if b then "#" else "*")
+      -- .or.map (=='?') -- if there is a '?'
+      .null
       .map head.lines -- get 1st char forall files
       ) out
 
