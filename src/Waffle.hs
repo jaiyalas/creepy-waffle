@@ -1,4 +1,4 @@
-module Waffle where
+module Main where
 --
 -- fix :: (a -> a) -> a
 -- join :: Monad am => m (m a) -> m a
@@ -12,13 +12,8 @@ import Control.Concurrent (threadDelay)
 --
 import qualified FRP.Elerea.Simple as Ele
 --
-
--- `Ele.Singal a` can be a monad-ish or number-ish
---    A signal represents a value changing over time.
---    It can be thought of as a function of type Nat -> a
--- `Ele.SignalGen a`
---    A signal generator is the only source of stateful signals.
---    It can be thought of as a function of type Nat -> a
+import qualified SDL
+--
 
 
 -- transfer :: a	           -- ^ initial internal state
@@ -26,21 +21,27 @@ import qualified FRP.Elerea.Simple as Ele
 --          -> Signal t	     -- ^ input signal
 --          -> SignalGen (Signal a)
 
-data T = A | B | C | D deriving (Show, Eq)
-
-next :: Int -> T -> T
-next _ A = B
-next _ B = C
-next _ C = D
-next _ D = A
-
-circ :: Int -> T -> T
-circ 0 t = t
-circ n t = circ (n-1) (next n t)
-
--- ############################### --
-
+main :: IO ()
 main = do
+   SDL.initialize [SDL.InitEverything]
+   fix appLoop
+--
+appLoop :: IO () -> IO ()
+appLoop loop = do
+   putStr "."
+   events <- SDL.pollEvents
+   let qPressed = not (null (filter eventIsQPress events))
+   unless qPressed loop
+
+eventIsQPress ::SDL.Event -> Bool
+eventIsQPress evt = case SDL.eventPayload evt of
+   (SDL.KeyboardEvent kEvtData) ->
+      SDL.keyboardEventKeyMotion kEvtData == SDL.Pressed
+      &&
+      (SDL.keysymKeycode.SDL.keyboardEventKeysym) kEvtData == SDL.KeycodeQ
+   otherwise -> False
+
+{-
    -- 看一次就加一的計數器
    step <- Ele.start $ Ele.stateful 0 (1+)
    cntReader <- Ele.start $ Ele.stateful 0 (1+)
@@ -56,7 +57,7 @@ main = do
       when (i<8) loop)
    print "EXIT as NORMAL"
    exitSuccess
-
+-}
 -- ############################### --
 
 main2 = do
