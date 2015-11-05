@@ -28,18 +28,23 @@ main = do
 --
 appLoop :: IO () -> IO ()
 appLoop loop = do
-   putStr "."
+   threadDelay 20000
    events <- SDL.pollEvents
    let qPressed = not (null (filter eventIsQPress events))
    unless qPressed loop
 
 eventIsQPress ::SDL.Event -> Bool
-eventIsQPress evt = case SDL.eventPayload evt of
-   (SDL.KeyboardEvent kEvtData) ->
-      SDL.keyboardEventKeyMotion kEvtData == SDL.Pressed
-      &&
-      (SDL.keysymKeycode.SDL.keyboardEventKeysym) kEvtData == SDL.KeycodeQ
-   otherwise -> False
+eventIsQPress evt = pressKey $ SDL.eventPayload evt
+
+pressKey (SDL.KeyboardEvent kEvtData) =
+   (&&) (SDL.keyboardEventKeyMotion kEvtData == SDL.Pressed) $
+      case (SDL.keysymKeycode $ SDL.keyboardEventKeysym kEvtData) of
+         SDL.KeycodeW -> True
+         SDL.KeycodeS -> True
+         SDL.KeycodeA -> True
+         SDL.KeycodeD -> True
+         SDL.KeycodeEscape -> True
+pressKey _ = False
 
 {-
    -- 看一次就加一的計數器
