@@ -1,43 +1,42 @@
 {-# LANGUAGE OverloadedStrings #-}
-
+--
 module Main where
-
-import Control.Monad (when, unless, join)
-import Control.Monad.Fix (fix)
-import Control.Applicative ((<*>), (<$>))
-import System.Exit (exitSuccess)
+--
+import qualified CreepyWaffle.UI as UI
+import qualified CreepyWaffle.EventHandle as EH
+import qualified CreepyWaffle.SimpleMapLoader as Loader
+--
+import CreepyWaffle.Types
+--
 import Control.Concurrent (threadDelay)
+import Control.Monad (unless)
+import Control.Monad.Fix (fix)
 --
---
-import qualified FRP.Elerea.Simple as Ele
---
-import qualified SDL
---
-winConfig = SDL.defaultWindow
-   { SDL.windowPosition = SDL.Centered -- (P (V2 100 100))
-   -- , SDL.windowInitialSize = V2 640 480
-   }
 
-rdrConfig = SDL.RendererConfig
-   { SDL.rendererType = SDL.AcceleratedVSyncRenderer
-   , SDL.rendererTargetTexture = True
-   }
 --
+main :: IO ()
 main = do
-   window <- SDL.createWindow "Hello!" winConfig
-   renderer <- SDL.createRenderer window (-1) rdrConfig
-   bmp <- SDL.loadBMP "/Users/jaiyalas/project/creepy-waffle/hello.bmp"
-   tex <- SDL.createTextureFromSurface renderer bmp
-   SDL.freeSurface bmp
+   smap <- Loader.readMap "simple.map"
    --
-   SDL.clear renderer
-   SDL.copy renderer tex Nothing Nothing
-   SDL.present renderer
+   (texture,renderer) <- UI.initSDL
    --
-   SDL.delay 20000
+   let player = Player
+         { hp = 50, mp = 10
+         , lX = 15, lY = 15
+         , package = []
+         , actions = []
+         }
    --
-   SDL.destroyTexture tex
-   SDL.destroyRenderer renderer
-   SDL.destroyWindow window
+   let mainLoop = \loop -> do
+         threadDelay 50000
+         --
+         UI.showWindowBg   texture
+         UI.showPlayerInfo texture player
+         UI.showConcole    texture smap
+         --
+         UI.refreshSDL texture renderer
+         --
+         quitS <- EH.quitPredicate
+         unless quitS loop
    --
-   SDL.quit
+   fix $ mainLoop

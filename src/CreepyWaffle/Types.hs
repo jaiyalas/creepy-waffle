@@ -20,9 +20,9 @@ module CreepyWaffle.Types
    , updateIdx
    , moveTo
    , moveToR
-     -- * Small Event, a subset of Vty.Event
-   , SmallEvent
-   , vty2se
+   --   -- * Small Event, a subset of Vty.Event
+   -- , SmallEvent
+   -- , vty2se
      -- * Block for Simple Map
    , Block (..)
    , (<!!>)
@@ -30,7 +30,7 @@ module CreepyWaffle.Types
 --
 import Data.Default
 --
-import qualified Graphics.Vty as V
+-- import qualified Graphics.Vty as V
 --
 data Item = Item
    { itName :: String
@@ -106,11 +106,11 @@ moveTo _x _y (St p c) = St (p {lX = _x, lY = _y}) c
 moveToR :: Int -> Int -> State -> State
 moveToR dx dy (St p c) = St (updateLX dx $ updateLY dy p) c
 --
-type SmallEvent = Maybe V.Key
---
-vty2se :: V.Event -> SmallEvent
-vty2se (V.EvKey ke ms) = Just ke
-vty2se               _ = Nothing
+-- type SmallEvent = Maybe V.Key
+-- --
+-- vty2se :: V.Event -> SmallEvent
+-- vty2se (V.EvKey ke ms) = Just ke
+-- vty2se               _ = Nothing
 --
 class Block a where
    throughable :: a -> Bool
