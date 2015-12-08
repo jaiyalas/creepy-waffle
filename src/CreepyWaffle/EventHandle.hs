@@ -3,30 +3,48 @@ module CreepyWaffle.EventHandle where
 --
 import CreepyWaffle.Types
 --
+import Data.Maybe (catMaybes)
+import Control.Monad (mapM)
+--
 import qualified SDL
 import SDL.Cairo (createCairoTexture)
 import SDL.Cairo.Canvas
 --
-
+import qualified FRP.Elerea.Simple as Ele
+--
 quitPredicate :: IO Bool
 quitPredicate = do
    events <- SDL.pollEvents
-   let qPressed = not $ null $ filter eventIsESCPress events
-   return qPressed
+   return $ elem SDL.KeycodeEscape $ events2Kcodes events
 --
--- ########################################################
+testTrigger :: (String -> IO()) -> IO Bool
+testTrigger sW = do
+   kcs <- events2Kcodes <$> SDL.pollEvents
+   mapM (perform sW) kcs
+   return $ elem SDL.KeycodeEscape kcs
+
+perform :: (String -> IO ()) -> SDL.Keycode -> IO ()
+perform sW SDL.KeycodeUp      = sW "Up"
+perform sW SDL.KeycodeDown    = sW "Down"
+perform sW SDL.KeycodeLeft    = sW "Left"
+perform sW SDL.KeycodeRight   = sW "Right"
+perform sW _                  = return ()
+
+
 --
-eventIsESCPress ::SDL.Event -> Bool
-eventIsESCPress evt = pressKey $ SDL.eventPayload evt
+events2Kcodes :: [SDL.Event] -> [SDL.Keycode]
+events2Kcodes = catMaybes . map event2Kcode
 --
-pressKey :: SDL.EventPayload -> Bool
-pressKey (SDL.KeyboardEvent kEvtData) =
-   let kPressed = SDL.keyboardEventKeyMotion kEvtData == SDL.Pressed
-   in case (SDL.keysymKeycode $ SDL.keyboardEventKeysym kEvtData) of
-         -- SDL.KeycodeW -> True && kPressed
-         -- SDL.KeycodeS -> True && kPressed
-         -- SDL.KeycodeA -> True && kPressed
-         -- SDL.KeycodeD -> True && kPressed
-         SDL.KeycodeEscape -> True && kPressed
-         _ -> False
-pressKey _ = False
+event2Kcode :: SDL.Event -> Maybe SDL.Keycode
+event2Kcode e = case SDL.eventPayload e of
+   SDL.KeyboardEvent edata -> if isPressed edata
+      then return $ getKeycode edata
+      else Nothing
+   otherwise -> Nothing
+--
+isPressed :: SDL.KeyboardEventData -> Bool
+isPressed edata = SDL.keyboardEventKeyMotion edata == SDL.Pressed
+--
+getKeycode :: SDL.KeyboardEventData -> SDL.Keycode
+getKeycode = SDL.keysymKeycode . SDL.keyboardEventKeysym
+--

@@ -7,23 +7,36 @@ import qualified SDL
 import SDL.Cairo (createCairoTexture)
 import SDL.Cairo.Canvas
 --
+import qualified SDL.Cairo.Image as I
+--
+import Codec.Picture
+import qualified Graphics.Rendering.Cairo as Ca
+   (setAntialias, Antialias(..))
+--
 import Linear.V2 (V2(..))
 
-winWidth  = 640
-winHeight = 480
+winWidth  = 800
+winHeight = 600
 --
 initSDL :: IO (SDL.Texture, SDL.Renderer)
 initSDL = do
    SDL.initialize [SDL.InitEverything]
    window   <- SDL.createWindow "Hello!" winConfig
    renderer <- SDL.createRenderer window (-1) rdrConfig
-   texture  <- createCairoTexture renderer (V2 640 480)
+   texture  <- createCairoTexture renderer (V2 winWidth winHeight)
    return (texture, renderer)
 --
 refreshSDL :: SDL.Texture -> SDL.Renderer -> IO ()
 refreshSDL t r = do
    SDL.copy r t Nothing Nothing
    SDL.present r
+--
+showCharImg :: SDL.Texture -> Codec.Picture.Image PixelRGBA8 -> IO ()
+showCharImg st img = I.drawImg st (V2 10 10) img
+--
+showNewtonImg :: SDL.Texture -> Codec.Picture.Image PixelRGBA8 -> IO ()
+showNewtonImg st img = I.drawImg st (V2 10 150) img
+
 --
 -- withCanvas :: Texture -> Canvas a -> IO a
 showWindowBg :: SDL.Texture -> IO ()
@@ -67,7 +80,8 @@ showConcole tx ss = withCanvas tx $ do
 --
 winConfig = SDL.defaultWindow
    { SDL.windowPosition = SDL.Centered
-   , SDL.windowInitialSize = V2 640 480
+   , SDL.windowInitialSize = V2 winWidth winHeight
+   , SDL.windowMode = SDL.Fullscreen
    }
 
 rdrConfig = SDL.RendererConfig

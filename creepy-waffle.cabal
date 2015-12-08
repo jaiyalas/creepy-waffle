@@ -20,6 +20,8 @@ library
                , linear
                , sdl2-cairo
                , cairo       >= 0.13
+               , sdl2-cairo-image >= 1.0
+               , JuicyPixels
                -- , containers  >= 0.5.6
   ghc-options: -threaded -O2
 --
@@ -27,7 +29,7 @@ executable main
   default-language: Haskell2010
   hs-source-dirs:   src
   main-is:          Creepy.hs
-  ghc-options:      -w -threaded -O2
+  ghc-options:      -O2 -prof -auto-all -caf-all
   build-depends: base         >= 4 && < 5
                , data-default >= 0.5
                , elerea      >= 2.8
@@ -36,6 +38,8 @@ executable main
                , linear      >= 1.19
                , sdl2-cairo  >= 0.1
                , cairo       >= 0.13
+               , sdl2-cairo-image >= 1.0
+               , JuicyPixels
                -- , containers  >= 0.5.6
 --
 Test-Suite spec

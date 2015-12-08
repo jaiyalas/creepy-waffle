@@ -45,8 +45,8 @@ data ItemType = IT_WEAPON
 instance Default Item where
    def = Item "unknown posion" $ IT_POSION def
 instance Show ItemType where
-   show IT_WEAPON = "武"
-   show IT_AROMR  = "防"
+   show IT_WEAPON     = "武"
+   show IT_AROMR      = "防"
    show (IT_POSION _) = "藥"
    show (IT_BOOK _)   = "書"
 instance Show Item where
