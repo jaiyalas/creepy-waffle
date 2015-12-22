@@ -28,6 +28,7 @@ initSDL = do
 --
 refreshSDL :: SDL.Texture -> SDL.Renderer -> IO ()
 refreshSDL t r = do
+   SDL.clear r
    SDL.copy r t Nothing Nothing
    SDL.present r
 --

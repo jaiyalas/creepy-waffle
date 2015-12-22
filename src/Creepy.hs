@@ -21,8 +21,8 @@ main = do
    --
    --
    -- smap <- Loader.readMap "simple.map"
-   charImg <- I.loadRGBA8 I.PNG "/Users/jaiyalas/img/char.png"
-   newtonImg <- I.loadRGBA8 I.PNG "/Users/jaiyalas/img/newton.png"
+   charImg <- I.loadRGBA8 I.PNG "/Users/jaiyalas/Project/creepy-waffle/img/char.png"
+   newtonImg <- I.loadRGBA8 I.PNG "/Users/jaiyalas/Project/creepy-waffle/img/newton.png"
    --
    (texture,renderer) <- UI.initSDL
    --
@@ -54,7 +54,7 @@ main = do
       return $ draw <$> ctx
    --
    let mainLoop = \loop -> do
-         threadDelay 250000
+         threadDelay 150000
          qb <- EH.testTrigger sigW
          join network
          --
