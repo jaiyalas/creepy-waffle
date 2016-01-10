@@ -43,7 +43,8 @@ event2Kcode e = case SDL.eventPayload e of
    otherwise -> Nothing
 --
 isPressed :: SDL.KeyboardEventData -> Bool
-isPressed edata = SDL.keyboardEventKeyMotion edata == SDL.Pressed
+isPressed edata =
+   SDL.keyboardEventKeyMotion edata == SDL.Pressed
 --
 getKeycode :: SDL.KeyboardEventData -> SDL.Keycode
 getKeycode = SDL.keysymKeycode . SDL.keyboardEventKeysym
