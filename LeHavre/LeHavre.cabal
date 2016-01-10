@@ -19,7 +19,7 @@ executable main
                 --
                 , linear
                 --
-               --  , netwire          >= 5.0
+                -- , netwire          >= 5.0
                 -- , containers  >= 0.5.6
    ghc-options: -O2 -w
    -- -prof -auto-all -caf-all
