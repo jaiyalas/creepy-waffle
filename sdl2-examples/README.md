@@ -24,8 +24,8 @@
 
 + [X] Lesson 01 - Hello SDL
 + [X] Lesson 02 - Getting an Image on the Screen
-+ [ ] Lesson 03 - Event Driven Programming
-+ [ ] Lesson 04 - Key Presses
++ [X] Lesson 03 - Event Driven Programming
++ [X] Lesson 04 - Key Presses
 + [ ] Lesson 05 - Optimized Surface Loading and Soft Stretching
 + [ ] Lesson 07 - Texture Loading and Rendering
 + [ ] Lesson 08 - Geometry Rendering

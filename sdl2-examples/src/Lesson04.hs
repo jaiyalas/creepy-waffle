@@ -25,30 +25,24 @@ lesson04 = do
    picDown    <- SDL.loadBMP "./img/down.bmp"
    picLeft    <- SDL.loadBMP "./img/left.bmp"
    picRight   <- SDL.loadBMP "./img/right.bmp"
+   -- 縮寫 evnet -> surface 函數
+   let e2s = Last.(eventToSurface picUp picDown picLeft picRight picDefault).SDL.eventPayload
    -- 定義 loop
-   let -- 這裡一定要換行
-      loop = \prevSurface -> do
+   let loop = \prevSurface -> do
          -- 擷取所有 events
          events <- SDL.pollEvents
          -- 檢查是不是有 QuitEvent
-         let
-            --
-            quit = any (== SDL.QuitEvent) $ map SDL.eventPayload events
-            --
-            eventToSurface (SDL.KeyboardEvent ked) =
-               case (SDL.keysymKeycode $ SDL.keyboardEventKeysym ked) of
-                  SDL.KeycodeUp    -> Just picUp
-                  SDL.KeycodeDown  -> Just picDown
-                  SDL.KeycodeLeft  -> Just picLeft
-                  SDL.KeycodeRight -> Just picRight
-                  otherwise        -> Just picDefault
-            eventToSurface _        = Nothing
-            --
-            newSurface =
+         let quit = any (== SDL.QuitEvent) $ map SDL.eventPayload events
+         -- 根據 event 來選擇 surface
+         let newSurface =
+               -- fromMaybe :: a -> Maybe a -> a
+               -- 如果是 Noting (exists no KeyEvent)
+               -- 就繼續使用原本的 surface
                fromMaybe prevSurface
-               $ getFirst
-               $ foldr mappend mempty
-               $ map (First . eventToSurface . SDL.eventPayload) events
+               -- getLast :: Last a -> Maybe a
+               $ getLast
+               -- foldMap :: (Foldable t, Monoid m) => (a -> m) -> t a -> m
+               $ foldMap e2s events
          -- 更新畫面
          SDL.surfaceFillRect gSurface Nothing $
           V4 minBound minBound minBound maxBound
@@ -67,3 +61,25 @@ lesson04 = do
    SDL.freeSurface picRight
    SDL.quit
 --
+
+-- 定義 event to surface 對應函數
+eventToSurface :: SDL.Surface -- up
+               -> SDL.Surface -- down
+               -> SDL.Surface -- left
+               -> SDL.Surface -- right
+               -> SDL.Surface -- default
+               -> SDL.EventPayload --
+               -> Maybe SDL.Surface --
+eventToSurface picUp
+               picDown
+               picLeft
+               picRight
+               picDefault
+               (SDL.KeyboardEvent ked) =
+   case (SDL.keysymKeycode $ SDL.keyboardEventKeysym ked) of
+      SDL.KeycodeUp    -> Just picUp
+      SDL.KeycodeDown  -> Just picDown
+      SDL.KeycodeLeft  -> Just picLeft
+      SDL.KeycodeRight -> Just picRight
+      otherwise        -> Just picDefault
+eventToSurface _ _ _ _ _ _      = Nothing
