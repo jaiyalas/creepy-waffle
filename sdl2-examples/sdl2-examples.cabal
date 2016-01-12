@@ -12,7 +12,7 @@ executable main
    build-depends: base             >= 4 && < 5
                 , sdl2             >= 2.0
                 , linear
-   ghc-options: -O2 -Wall
+   ghc-options: -O2 -w -main-is Demo
    -- -prof -auto-all -caf-all
 --
 
