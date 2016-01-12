@@ -10,17 +10,8 @@ executable main
    hs-source-dirs:   src
    main-is:          LeHavre.hs
    build-depends: base             >= 4 && < 5
-                , cairo            >= 0.13
-                , JuicyPixels
-                --
                 , sdl2             >= 2.0
-                , sdl2-cairo
-                -- , sdl2-cairo-image >= 1.0
-                --
                 , linear
-                --
-                -- , netwire          >= 5.0
-                -- , containers  >= 0.5.6
    ghc-options: -O2 -w
    -- -prof -auto-all -caf-all
 --

@@ -7,7 +7,7 @@ import Linear.V2 (V2(..))
 import Linear.V4 (V4(..))
 import Linear.Affine
 --
-import Data.Int
+import Data.Int (Int32)
 --
 -- import Control.Wire
 import Control.Concurrent (threadDelay)
@@ -15,10 +15,27 @@ import Control.Concurrent (threadDelay)
 main :: IO ()
 main = do
    SDL.initializeAll
-   window <- SDL.createWindow "output" winConfig
-   renderer <- SDL.createRenderer window (-1) rdrConfig
    SDL.setMouseLocationMode SDL.AbsoluteLocation
-   mainLoop renderer
+   --
+   gWindow <- SDL.createWindow "output" winConfig
+   gRenderer <- SDL.createRenderer gWindow (-1) rdrConfig
+   -- .
+   rinfo <- SDL.getRendererInfo gRenderer
+   print rinfo
+   print "----------------------"
+   -- .
+   -- gSurface <- SDL.getWindowSurface gWindow
+   -- gTexture <- SDL.createTextureFromSurface gRenderer gSurface
+   -- .
+   gTexture <- SDL.createTexture gRenderer SDL.ARGB8888 SDL.TextureAccessStreaming (V2 640 480)
+   -- .
+   tinfo <- SDL.queryTexture gTexture
+   print tinfo
+   print "----------------------"
+   rdrScale <- SDL.get (SDL.rendererScale gRenderer)
+   print rdrScale
+   return ()
+   -- mainLoop gRenderer
 --
 mainLoop :: SDL.Renderer -> IO ()
 mainLoop rdr = do
@@ -41,9 +58,9 @@ picker (SDL.MouseButtonEvent mmed) =
       SDL.Pressed  -> Nothing
 picker _ = Nothing
 
-drawGrid :: SDL.Renderer -> IO ()
-drawGrid rdr = do
-   
+-- drawGrid :: SDL.Renderer -> IO ()
+-- drawGrid rdr = do
+
 
 -- .
 winConfig = SDL.defaultWindow
