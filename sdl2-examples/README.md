@@ -13,7 +13,7 @@
 ```bash
 > cabal configure
 > cabal build
-> cabal run demo #n
+> cabal run #n
 ```
 
 其中 `#n` 是 lesson 的代號。
