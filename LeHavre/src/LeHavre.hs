@@ -7,7 +7,8 @@ import Linear.V2 (V2(..))
 import Linear.V4 (V4(..))
 import Linear.Affine
 --
-import Data.Int (Int32)
+-- import Foreign.C.Types (CInt)
+-- import Data.Int (Int32)
 --
 -- import Control.Wire
 import Control.Concurrent (threadDelay)
