@@ -22,12 +22,11 @@
 
 ### 視覺/基礎
 
-+ Lesson [ ] 01 - Hello SDL
-+ Lesson [ ] 02 - Getting an Image on the Screen
++ Lesson [X] 01 - Hello SDL
++ Lesson [X] 02 - Getting an Image on the Screen
 + Lesson [ ] 03 - Event Driven Programming
 + Lesson [ ] 04 - Key Presses
 + Lesson [ ] 05 - Optimized Surface Loading and Soft Stretching
-+ Lesson [ ] 06 - Extension Libraries and Loading Other Image Formats
 + Lesson [ ] 07 - Texture Loading and Rendering
 + Lesson [ ] 08 - Geometry Rendering
 + Lesson [ ] 09 - The Viewport
@@ -63,6 +62,7 @@
 
 ### 不打算做
 
++ Lesson 06 - Extension Libraries and Loading Other Image Formats
 + Lesson 19 - Gamepads and Joysticks
 + Lesson 20 - Force Feedback
 + Lesson 32 - Text Input and Clipboard Handling
