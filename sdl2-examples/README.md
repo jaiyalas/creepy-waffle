@@ -22,43 +22,43 @@
 
 ### 視覺/基礎
 
-+ Lesson [X] 01 - Hello SDL
-+ Lesson [X] 02 - Getting an Image on the Screen
-+ Lesson [ ] 03 - Event Driven Programming
-+ Lesson [ ] 04 - Key Presses
-+ Lesson [ ] 05 - Optimized Surface Loading and Soft Stretching
-+ Lesson [ ] 07 - Texture Loading and Rendering
-+ Lesson [ ] 08 - Geometry Rendering
-+ Lesson [ ] 09 - The Viewport
-+ Lesson [ ] 10 - Color Keying
-+ Lesson [ ] 11 - Clip Rendering and Sprite Sheets
-+ Lesson [ ] 12 - Color Modulation
-+ Lesson [ ] 13 - Alpha Blending
-+ Lesson [ ] 14 - Animated Sprites and Vsync
-+ Lesson [ ] 15 - Rotation and Flipping
-+ Lesson [ ] 16 - True Type Fonts
-+ Lesson [ ] 17 - Mouse Events
-+ Lesson [ ] 18 - Key States
-+ Lesson [ ] 30 - Scrolling
-+ Lesson [ ] 31 - Scrolling Backgrounds
-+ Lesson [ ] 38 - Particle Engines
-+ Lesson [ ] 39 - Tiling
-+ Lesson [ ] 40 - Texture Manipulation
-+ Lesson [ ] 41 - Bitmap Fonts
-+ Lesson [ ] 42 - Texture Streaming
-+ Lesson [ ] 43 - Render to Texture
++ [X] Lesson 01 - Hello SDL
++ [X] Lesson 02 - Getting an Image on the Screen
++ [ ] Lesson 03 - Event Driven Programming
++ [ ] Lesson 04 - Key Presses
++ [ ] Lesson 05 - Optimized Surface Loading and Soft Stretching
++ [ ] Lesson 07 - Texture Loading and Rendering
++ [ ] Lesson 08 - Geometry Rendering
++ [ ] Lesson 09 - The Viewport
++ [ ] Lesson 10 - Color Keying
++ [ ] Lesson 11 - Clip Rendering and Sprite Sheets
++ [ ] Lesson 12 - Color Modulation
++ [ ] Lesson 13 - Alpha Blending
++ [ ] Lesson 14 - Animated Sprites and Vsync
++ [ ] Lesson 15 - Rotation and Flipping
++ [ ] Lesson 16 - True Type Fonts
++ [ ] Lesson 17 - Mouse Events
++ [ ] Lesson 18 - Key States
++ [ ] Lesson 30 - Scrolling
++ [ ] Lesson 31 - Scrolling Backgrounds
++ [ ] Lesson 38 - Particle Engines
++ [ ] Lesson 39 - Tiling
++ [ ] Lesson 40 - Texture Manipulation
++ [ ] Lesson 41 - Bitmap Fonts
++ [ ] Lesson 42 - Texture Streaming
++ [ ] Lesson 43 - Render to Texture
 
 ### 進階/其他
 
-+ Lesson [ ] 21 - Sound Effects and Music
-+ Lesson [ ] 22 - Timing
-+ Lesson [ ] 23 - Advanced Timers
-+ Lesson [ ] 24 - Calculating Frame Rate
-+ Lesson [ ] 25 - Capping Frame Rate
-+ Lesson [ ] 26 - Motion
-+ Lesson [ ] 27 - Collision Detection
-+ Lesson [ ] 28 - Per-pixel Collision Detection
-+ Lesson [ ] 29 - Circular Collision Detection
++ [ ] Lesson 21 - Sound Effects and Music
++ [ ] Lesson 22 - Timing
++ [ ] Lesson 23 - Advanced Timers
++ [ ] Lesson 24 - Calculating Frame Rate
++ [ ] Lesson 25 - Capping Frame Rate
++ [ ] Lesson 26 - Motion
++ [ ] Lesson 27 - Collision Detection
++ [ ] Lesson 28 - Per-pixel Collision Detection
++ [ ] Lesson 29 - Circular Collision Detection
 
 ### 不打算做
 
