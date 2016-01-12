@@ -1,3 +1,4 @@
+{-  基本視窗顯示 -}
 {-# LANGUAGE OverloadedStrings #-}
 module Lesson01 where
 --

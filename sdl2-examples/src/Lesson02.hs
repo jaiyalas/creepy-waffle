@@ -1,3 +1,4 @@
+{-  基本圖片顯示 -}
 {-# LANGUAGE OverloadedStrings #-}
 module Lesson02 where
 --

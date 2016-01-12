@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Lesson04 where
+module Lesson05 where
 --
 import qualified SDL
 import Linear.V4 (V4(..))
@@ -8,6 +8,6 @@ import Control.Concurrent (threadDelay)
 --
 import qualified Config
 --
-lesson04 :: IO ()
-lesson04 = do
-   print "lesson04"
+lesson05 :: IO ()
+lesson05 = do
+   print "lesson05"
