@@ -1,4 +1,4 @@
-{-  基本視窗顯示 -}
+{- Basic Window Setup and Display  -}
 {-# LANGUAGE OverloadedStrings #-}
 module Lesson01 where
 --
@@ -14,12 +14,13 @@ lesson01 = do
    SDL.initialize [SDL.InitVideo]
    window <- SDL.createWindow "Lesson01" Config.winConfig
    SDL.showWindow window
-   -- 取得 window 上的 surface
+   -- get surface from given window
    gSurface <- SDL.getWindowSurface window
-   -- gSurface 全填滿為黑色
+   -- fill the global surface with black
    SDL.surfaceFillRect gSurface Nothing $
+      -- setting color with R-G-B-A
       V4 minBound minBound minBound maxBound
-   -- 更新視窗 surface
+   -- update the surface for a specific window
    SDL.updateWindowSurface window
    --
    threadDelay 2000000

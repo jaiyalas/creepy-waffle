@@ -1,3 +1,4 @@
+{- Using textures instead of surfaces -}
 {-# LANGUAGE OverloadedStrings #-}
 module Lesson07 where
 --
@@ -15,13 +16,14 @@ lesson07 = do
    window <- SDL.createWindow "Lesson04" Config.winConfig
    renderer <- SDL.createRenderer window (-1) Config.rdrConfig
 
-   -- 設定 renderer 的顏色
+   -- set a color for renderer
    SDL.rendererDrawColor renderer
       SDL.$= V4 minBound minBound maxBound maxBound
 
-   -- 用 surface 讀取檔案到 memory 中
-   -- 將 surface 轉換為 texture (i.e. 載入到顯示卡記憶體中)
+   -- load image into main memory (as a surface)
    imgSf <- SDL.loadBMP "./img/down.bmp"
+   -- translate a surface to a texture
+   -- i.e. load image into video memory
    imgTx <- SDL.createTextureFromSurface renderer imgSf
    SDL.freeSurface imgSf
 
@@ -30,17 +32,18 @@ lesson07 = do
       loop = do
          events <- SDL.pollEvents
          let quit = any (== SDL.QuitEvent) $ map SDL.eventPayload events
-         -- 清除 texture (用 rendererDrawColor 指定的顏色)
+         -- clear(i.e. fill) renderer with the color we set
          SDL.clear renderer
-         -- rendering texture with renderer
+         -- copy(blit) image texture onto renderer
          SDL.copy renderer imgTx Nothing Nothing
-         -- renderer in SDL is a buffer, the function "present" will force to flush
+         -- A renderer in SDL is basically a buffer
+         -- the present function forces a renderer to flush
          SDL.present renderer
-
+         --
          threadDelay 20000
          unless quit loop
    loop
-   -- 釋放記憶體
+   -- releasing resources
    SDL.destroyWindow window
    SDL.destroyRenderer renderer
    SDL.destroyTexture imgTx

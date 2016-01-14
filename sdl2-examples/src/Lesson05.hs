@@ -1,3 +1,4 @@
+{- blit optmized image with scaling -}
 {-# LANGUAGE OverloadedStrings #-}
 module Lesson05 where
 --
@@ -9,20 +10,23 @@ import Control.Monad (unless)
 import Control.Applicative ((<*))
 --
 import qualified Config
---
--- SDL 會在每次 blit 時做色彩格式轉換
--- 因此可以在 load bmp 之後預先轉換格式
+
+-- In fact, SDL converts color mode in every blitting if
+-- the color mode of source surface doesn't match
+-- the color mode of target surface.
+-- To avoid those converting, a simple way is to
+-- align their color mode whenever we load an image.
 optLoadBMPwith :: SDL.Surface -> FilePath -> IO SDL.Surface
 optLoadBMPwith originSf path = do
-   newSf <- SDL.loadBMP path
-   -- 取得目標 surface 的色彩格式
+   imgSf <- SDL.loadBMP path
+   -- get the color mode of given surface
    spf <- SDL.surfaceFormat originSf
-   -- 轉換色彩格式;
-   SDL.convertSurface newSf spf
-      <* SDL.freeSurface newSf
-   -- 等同於以下三行程式碼
-   -- optSf <- SDL.convertSurface newSf spf
-   -- SDL.freeSurface newSf
+   -- align the color mode of image surface
+   SDL.convertSurface imgSf spf
+      <* SDL.freeSurface imgSf
+   -- equals to the following lines
+   -- optSf <- SDL.convertSurface imgSf spf
+   -- SDL.freeSurface imgSf
    -- return optSf
 --
 lesson05 :: IO ()
@@ -31,22 +35,19 @@ lesson05 = do
    window <- SDL.createWindow "Lesson05" Config.winConfig
    SDL.showWindow window
    gSurface <- SDL.getWindowSurface window
-   -- 讀圖
    sf <- optLoadBMPwith gSurface "./img/up.bmp"
    let
       loop = do
          events <- SDL.pollEvents
          let quit = any (== SDL.QuitEvent) $ map SDL.eventPayload events
-         -- 更新畫面
          SDL.surfaceFillRect gSurface Nothing $
             V4 minBound minBound minBound maxBound
-         -- 用不同縮放比例執行 blit
+         -- blit with given scaling setup
+         -- Nothing for default setup - blitting with fully filling 
          SDL.surfaceBlitScaled sf Nothing gSurface Nothing
          SDL.updateWindowSurface window
-         -- sleep and do next loop-step
          threadDelay 20000
          unless quit loop
-   -- 執行 loop
    loop
    SDL.destroyWindow window
    SDL.freeSurface sf

@@ -1,4 +1,4 @@
-{-  事件處理 -}
+{- Basic events handling -}
 {-# LANGUAGE OverloadedStrings #-}
 module Lesson03 where
 --
@@ -17,22 +17,20 @@ lesson03 = do
    SDL.showWindow window
    gSurface <- SDL.getWindowSurface window
    pictureS <- SDL.loadBMP "./img/Broom.bmp"
-   -- 定義 loop
-   let -- 這裡一定要換行
+   -- define the main loop
+   let
       loop = do
-         -- 擷取所有 events
+         -- fetch all events from events pool
          events <- SDL.pollEvents
-         -- 檢查是不是有 QuitEvent
+         -- check the existence of QuitEvent
          let quit = any (== SDL.QuitEvent) $ map SDL.eventPayload events
-         -- 更新畫面
          SDL.surfaceFillRect gSurface Nothing $
-          V4 minBound minBound minBound maxBound
+            V4 minBound minBound minBound maxBound
          SDL.surfaceBlit pictureS Nothing gSurface Nothing
          SDL.updateWindowSurface window
-         -- sleep and do next loop-step
          threadDelay 20000
          unless quit loop
-   -- 執行 loop
+   -- exec our main loop
    loop
    SDL.destroyWindow window
    SDL.freeSurface pictureS

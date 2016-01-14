@@ -1,4 +1,4 @@
-{-  事件處理 -}
+{- Keyboard events handling -}
 {-# LANGUAGE OverloadedStrings #-}
 module Lesson04 where
 --
@@ -25,34 +25,27 @@ lesson04 = do
    picDown    <- SDL.loadBMP "./img/down.bmp"
    picLeft    <- SDL.loadBMP "./img/left.bmp"
    picRight   <- SDL.loadBMP "./img/right.bmp"
-   -- 縮寫 evnet -> surface 函數
+   -- function to convert a event into a surface
    let e2s = Last.(eventToSurface picUp picDown picLeft picRight picDefault).SDL.eventPayload
-   -- 定義 loop
+   -- define main loop with extra parameter: current blitted surface
    let loop = \prevSurface -> do
-         -- 擷取所有 events
          events <- SDL.pollEvents
-         -- 檢查是不是有 QuitEvent
          let quit = any (== SDL.QuitEvent) $ map SDL.eventPayload events
-         -- 根據 event 來選擇 surface
          let newSurface =
-               -- fromMaybe :: a -> Maybe a -> a
-               -- 如果是 Noting (exists no KeyEvent)
-               -- 就繼續使用原本的 surface
                fromMaybe prevSurface
-               -- getLast :: Last a -> Maybe a
+               -- select the last surface (or nothing)
                $ getLast
-               -- foldMap :: (Foldable t, Monoid m) => (a -> m) -> t a -> m
+               -- convert all events into a list of Maybe surface
                $ foldMap e2s events
-         -- 更新畫面
          SDL.surfaceFillRect gSurface Nothing $
-          V4 minBound minBound minBound maxBound
+            V4 minBound minBound minBound maxBound
          SDL.surfaceBlit newSurface Nothing gSurface Nothing
          SDL.updateWindowSurface window
-         -- sleep and do next loop-step
          threadDelay 20000
          unless quit $ loop newSurface
-   -- 執行 loop
+   -- exec main loop
    loop picDefault
+   -- release resources
    SDL.destroyWindow window
    SDL.freeSurface picDefault
    SDL.freeSurface picUp
@@ -60,16 +53,15 @@ lesson04 = do
    SDL.freeSurface picLeft
    SDL.freeSurface picRight
    SDL.quit
---
 
--- 定義 event to surface 對應函數
-eventToSurface :: SDL.Surface -- up
-               -> SDL.Surface -- down
-               -> SDL.Surface -- left
-               -> SDL.Surface -- right
-               -> SDL.Surface -- default
-               -> SDL.EventPayload --
-               -> Maybe SDL.Surface --
+-- to decide a surface to blit from given event info.
+eventToSurface :: SDL.Surface -- for up-event
+               -> SDL.Surface -- for down-event
+               -> SDL.Surface -- for left-event
+               -> SDL.Surface -- for right-event
+               -> SDL.Surface -- for default
+               -> SDL.EventPayload
+               -> Maybe SDL.Surface
 eventToSurface picUp
                picDown
                picLeft
@@ -82,4 +74,5 @@ eventToSurface picUp
       SDL.KeycodeLeft  -> Just picLeft
       SDL.KeycodeRight -> Just picRight
       otherwise        -> Just picDefault
+-- if input event is not KeyboardEvent then return Nothing
 eventToSurface _ _ _ _ _ _      = Nothing

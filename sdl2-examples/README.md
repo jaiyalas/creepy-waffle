@@ -1,14 +1,11 @@
 # SDL2 Examples
 
-以 [sdl2 的 haskell binding](https://hackage.haskell.org/package/sdl2) 實作 [lazyfoo.net](http://lazyfoo.net/tutorials/SDL/) 中之課程題目。  
-(其中部分在 sdl2 自己的 [examples/lazyfoo](https://github.com/haskell-game/sdl2/tree/master/examples/lazyfoo) 中已經有實作。)
+Implementing SDL2 tutorial lessons in [lazyfoo.net](http://lazyfoo.net/tutorials/SDL/) using SDL2 haskell binding. (Some of them have been implemented in [haskell-game/sdl2examples/lazyfoo](https://github.com/haskell-game/sdl2/tree/master/examples/lazyfoo).) The plan is to implement 34 selected lessons out of the 55 lessons from the original lazyfoo's tutorial.
 
-## 目標
+以 [sdl2 的 haskell binding](https://hackage.haskell.org/package/sdl2) 實作[lazyfoo.net](http://lazyfoo.net/tutorials/SDL/) 中之課程題目。  
+(其中部分已實作在 sdl2 haskell binding 的 repository:[haskell-game/sdl2examples/lazyfoo](https://github.com/haskell-game/sdl2/tree/master/examples/lazyfoo) 中。) 計畫會從原本的 55 個課程選擇 34 個來實作。
 
-+ 共計有 55 個課程 (lessions)，目標僅練習其中 34 個
-+ 優先針對繪製 (render) 和顯示 (display) 的部分實作
-
-## 執行方式
+## How to Build and Execute (編譯與執行)
 
 ```bash
 > cabal configure
@@ -16,11 +13,13 @@
 > cabal run #n
 ```
 
+where `#n` is the number of lesson.
+
 其中 `#n` 是 lesson 的代號。
 
-## 課程清單
+## Lessons (課程清單)
 
-### 視覺/基礎
+### Basic (基礎)
 
 + [X] Lesson 01 - Hello SDL
 + [X] Lesson 02 - Getting an Image on the Screen
@@ -48,7 +47,7 @@
 + [ ] Lesson 42 - Texture Streaming
 + [ ] Lesson 43 - Render to Texture
 
-### 進階/其他
+### Others (進階/其他)
 
 + [ ] Lesson 21 - Sound Effects and Music
 + [ ] Lesson 22 - Timing
@@ -60,7 +59,7 @@
 + [ ] Lesson 28 - Per-pixel Collision Detection
 + [ ] Lesson 29 - Circular Collision Detection
 
-### 不打算做
+### Ignored (不打算做)
 
 + Lesson 06 - Extension Libraries and Loading Other Image Formats
 + Lesson 19 - Gamepads and Joysticks
