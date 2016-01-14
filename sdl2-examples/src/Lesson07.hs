@@ -6,22 +6,28 @@ import qualified SDL
 import Linear.V4 (V4(..))
 --
 import Control.Concurrent (threadDelay)
-import Control.Monad (unless)
+import Control.Monad (unless,when)
 --
 import qualified Config
 --
 lesson07 :: IO ()
 lesson07 = do
    SDL.initialize [SDL.InitVideo]
-   window <- SDL.createWindow "Lesson04" Config.winConfig
+   window <- SDL.createWindow "Lesson07" Config.winConfig
    renderer <- SDL.createRenderer window (-1) Config.rdrConfig
+
+   -- using Hint, comment out for seeing the effects
+   -- reference: https://en.wikipedia.org/wiki/Image_scaling#Scaling_methods
+   -- ***************
+   SDL.HintRenderScaleQuality SDL.$= SDL.ScaleLinear
+   -- ***************
 
    -- set a color for renderer
    SDL.rendererDrawColor renderer
       SDL.$= V4 minBound minBound maxBound maxBound
 
    -- load image into main memory (as a surface)
-   imgSf <- SDL.loadBMP "./img/down.bmp"
+   imgSf <- SDL.loadBMP "./img/Potion.bmp"
    -- translate a surface to a texture
    -- i.e. load image into video memory
    imgTx <- SDL.createTextureFromSurface renderer imgSf

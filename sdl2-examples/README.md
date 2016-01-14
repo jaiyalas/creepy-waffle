@@ -27,7 +27,7 @@ where `#n` is the number of lesson.
 + [X] Lesson 04 - Key Presses
 + [X] Lesson 05 - Optimized Surface Loading and Soft Stretching
 + [X] Lesson 07 - Texture Loading and Rendering
-+ [ ] Lesson 08 - Geometry Rendering
++ [X] Lesson 08 - Geometry Rendering
 + [ ] Lesson 09 - The Viewport
 + [ ] Lesson 10 - Color Keying
 + [ ] Lesson 11 - Clip Rendering and Sprite Sheets

@@ -5,7 +5,8 @@ import Linear.V2 (V2(..))
 --
 --
 winW  = 640
-winH = 480
+winH  = 480
+winV2 = V2 winW winH
 --
 winConfig = SDL.defaultWindow
    { SDL.windowPosition = SDL.Centered
