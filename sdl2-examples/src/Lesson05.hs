@@ -35,7 +35,7 @@ lesson05 = do
    window <- SDL.createWindow "Lesson05" Config.winConfig
    SDL.showWindow window
    gSurface <- SDL.getWindowSurface window
-   sf <- optLoadBMPwith gSurface "./img/up.bmp"
+   sf <- optLoadBMPwith gSurface "./img/05/up.bmp"
    let
       loop = do
          events <- SDL.pollEvents
@@ -43,7 +43,7 @@ lesson05 = do
          SDL.surfaceFillRect gSurface Nothing $
             V4 minBound minBound minBound maxBound
          -- blit with given scaling setup
-         -- Nothing for default setup - blitting with fully filling 
+         -- Nothing for default setup - blitting with fully filling
          SDL.surfaceBlitScaled sf Nothing gSurface Nothing
          SDL.updateWindowSurface window
          threadDelay 20000

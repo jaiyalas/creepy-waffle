@@ -59,8 +59,8 @@ lesson10 = do
       V4 maxBound maxBound minBound maxBound
    SDL.showWindow window
 
-   imgBg <- loadFromFile renderer "./img/bg.bmp"
-   imgHumanish <- loadFromFile renderer "./img/humanish.bmp"
+   imgBg <- loadFromFile renderer "./img/10/bg.bmp"
+   imgHumanish <- loadFromFile renderer "./img/10/humanish.bmp"
 
    let
       loop = do

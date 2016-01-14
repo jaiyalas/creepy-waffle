@@ -39,9 +39,9 @@ lesson09 = do
    SDL.showWindow window
 
    -- load image files
-   imgTxLU <- loadImgAsTexture renderer "./img/left.bmp"
-   imgTxRU <- loadImgAsTexture renderer "./img/right.bmp"
-   imgTxD  <- loadImgAsTexture renderer "./img/down.bmp"
+   imgTxLU <- loadImgAsTexture renderer "./img/09/left.bmp"
+   imgTxRU <- loadImgAsTexture renderer "./img/09/right.bmp"
+   imgTxD  <- loadImgAsTexture renderer "./img/09/down.bmp"
 
    let
       loop = do

@@ -20,11 +20,11 @@ lesson04 = do
    SDL.showWindow window
    gSurface <- SDL.getWindowSurface window
    --
-   picDefault <- SDL.loadBMP "./img/press.bmp"
-   picUp      <- SDL.loadBMP "./img/up.bmp"
-   picDown    <- SDL.loadBMP "./img/down.bmp"
-   picLeft    <- SDL.loadBMP "./img/left.bmp"
-   picRight   <- SDL.loadBMP "./img/right.bmp"
+   picDefault <- SDL.loadBMP "./img/04/press.bmp"
+   picUp      <- SDL.loadBMP "./img/04/up.bmp"
+   picDown    <- SDL.loadBMP "./img/04/down.bmp"
+   picLeft    <- SDL.loadBMP "./img/04/left.bmp"
+   picRight   <- SDL.loadBMP "./img/04/right.bmp"
    -- function to convert a event into a surface
    let e2s = Last.(eventToSurface picUp picDown picLeft picRight picDefault).SDL.eventPayload
    -- define main loop with extra parameter: current blitted surface
@@ -69,10 +69,11 @@ eventToSurface picUp
                picDefault
                (SDL.KeyboardEvent ked) =
    case (SDL.keysymKeycode $ SDL.keyboardEventKeysym ked) of
-      SDL.KeycodeUp    -> Just picUp
-      SDL.KeycodeDown  -> Just picDown
-      SDL.KeycodeLeft  -> Just picLeft
-      SDL.KeycodeRight -> Just picRight
-      otherwise        -> Just picDefault
+      SDL.KeycodeUp     -> Just picUp
+      SDL.KeycodeDown   -> Just picDown
+      SDL.KeycodeLeft   -> Just picLeft
+      SDL.KeycodeRight  -> Just picRight
+      SDL.KeycodeEscape -> Just picDefault
+      otherwise        -> Nothing
 -- if input event is not KeyboardEvent then return Nothing
 eventToSurface _ _ _ _ _ _      = Nothing

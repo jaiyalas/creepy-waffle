@@ -27,7 +27,7 @@ lesson07 = do
       SDL.$= V4 minBound minBound maxBound maxBound
 
    -- load image into main memory (as a surface)
-   imgSf <- SDL.loadBMP "./img/Potion.bmp"
+   imgSf <- SDL.loadBMP "./img/07/Potion.bmp"
    -- translate a surface to a texture
    -- i.e. load image into video memory
    imgTx <- SDL.createTextureFromSurface renderer imgSf

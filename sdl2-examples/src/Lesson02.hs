@@ -18,7 +18,7 @@ lesson02 = do
    SDL.surfaceFillRect gSurface Nothing $
       V4 minBound minBound minBound maxBound
    -- load image file as a surface
-   pictureS <- SDL.loadBMP "./img/Broom.bmp"
+   pictureS <- SDL.loadBMP "./img/02/Broom.bmp"
    -- blit(copy/show) image surface onto window surface
    SDL.surfaceBlit pictureS Nothing gSurface Nothing
    SDL.updateWindowSurface window

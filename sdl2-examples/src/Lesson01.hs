@@ -19,7 +19,7 @@ lesson01 = do
    -- fill the global surface with black
    SDL.surfaceFillRect gSurface Nothing $
       -- setting color with R-G-B-A
-      V4 minBound minBound minBound maxBound
+      V4 maxBound maxBound minBound maxBound
    -- update the surface for a specific window
    SDL.updateWindowSurface window
    --

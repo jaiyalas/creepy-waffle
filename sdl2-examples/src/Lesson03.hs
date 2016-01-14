@@ -16,7 +16,7 @@ lesson03 = do
    window <- SDL.createWindow "Lesson03" Config.winConfig
    SDL.showWindow window
    gSurface <- SDL.getWindowSurface window
-   pictureS <- SDL.loadBMP "./img/Broom.bmp"
+   pictureS <- SDL.loadBMP "./img/03/Broom.bmp"
    -- define the main loop
    let
       loop = do
