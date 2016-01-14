@@ -29,7 +29,7 @@ where `#n` is the number of lesson.
 + [X] Lesson 07 - Texture Loading and Rendering
 + [X] Lesson 08 - Geometry Rendering
 + [X] Lesson 09 - The Viewport
-+ [ ] Lesson 10 - Color Keying
++ [X] Lesson 10 - Color Keying
 + [ ] Lesson 11 - Clip Rendering and Sprite Sheets
 + [ ] Lesson 12 - Color Modulation
 + [ ] Lesson 13 - Alpha Blending
